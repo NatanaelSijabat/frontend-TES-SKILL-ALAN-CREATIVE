@@ -8,3 +8,10 @@ export interface ObjTableData {
 export interface TableData {
     data: ObjTableData[]
 }
+
+export interface ObjTransaksi {
+    nama: string
+    foto: string
+    harga: string
+    jumlah: number 
+}

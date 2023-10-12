@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { Button, Card, Typography } from "@material-tailwind/react";
 import { TableData } from "../../types/table-interface";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -6,7 +7,8 @@ import { Form } from "../Index";
 
 const TABLE_HEAD = ["#", "Nama", "Foto", "Harga"];
 const baseImageURL = `${import.meta.env.VITE_BASE_IMAGE_API}`;
-function formatNumberCurrency(number: number) {
+
+export function formatNumberCurrency(number: number) {
   return new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR",
@@ -93,8 +95,7 @@ const Index = ({ data }: TableData) => {
                     </td>
                     <td className={classes}>
                       <Typography
-                        as="a"
-                        href="#"
+                        as="span"
                         variant="small"
                         color="blue-gray"
                         className="font-medium"

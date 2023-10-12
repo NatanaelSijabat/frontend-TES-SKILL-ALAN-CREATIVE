@@ -1,6 +1,6 @@
 import { TabPanel } from "@material-tailwind/react";
 import "./Global.css";
-import { Footer, Header, Table, Tabs } from "./components/Index";
+import { Card, Footer, Header, Table, Tabs } from "./components/Index";
 import { useEffect, useState } from "react";
 import { API_URL } from "./utils/callApi";
 import { ObjTableData } from "./types/table-interface";
@@ -24,8 +24,7 @@ function App() {
     {
       label: "Transaksi",
       value: "transaksi",
-      desc: `Because it's about motivating the doers. Because I'm here
-          to follow my dreams and inspire other people to follow their dreams, too.`,
+      desc: <Card data={food} />,
     },
   ];
   return (
