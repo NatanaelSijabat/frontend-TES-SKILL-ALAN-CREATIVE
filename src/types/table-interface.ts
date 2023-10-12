@@ -1,7 +1,7 @@
 export interface ObjTableData {
-    id: number;
+    id?: number;
     nama: string;
-    foto: string;
+    foto: File | null;
     harga: string
 }
 
