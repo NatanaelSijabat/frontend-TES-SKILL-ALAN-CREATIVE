@@ -4,26 +4,11 @@ import { TabData } from "../../types/tabs-interface";
 
 const Index = ({ data, defaultValue, children }: TabData) => {
   const [activeTab, setActiveTab] = React.useState("food");
-  //   const data = [
-  //     {
-  //       label: "Food",
-  //       value: "food",
-  //       desc: `It really matters and then like it really doesn't matter.
-  //         What matters is the people who are sparked by it. And the people
-  //         who are like offended by it, it doesn't matter.`,
-  //     },
-  //     {
-  //       label: "Transaksi",
-  //       value: "transaksi",
-  //       desc: `Because it's about motivating the doers. Because I'm here
-  //         to follow my dreams and inspire other people to follow their dreams, too.`,
-  //     },
-  //   ];
 
   return (
     <Tabs value={defaultValue}>
       <TabsHeader
-        className="bg-transparent max-w-full px-8 shadow-md"
+        className="bg-transparent max-w-full px-24 shadow-md"
         indicatorProps={{
           className:
             "border-b-2 border-[#00ABED] shadow-sm rounded-none text-[#00ABED]",
@@ -39,14 +24,22 @@ const Index = ({ data, defaultValue, children }: TabData) => {
             onClick={() => setActiveTab(value)}
             className={activeTab === value ? "text-[#00ABED " : "text-black"}
             style={{
-              flexBasis: "10rem",
+              flexBasis: "7rem",
             }}
           >
             {label}
           </Tab>
         ))}
       </TabsHeader>
-      <TabsBody>{children}</TabsBody>
+      <TabsBody
+        animate={{
+          initial: { y: 250 },
+          mount: { y: 0 },
+          unmount: { y: 250 },
+        }}
+      >
+        {children}
+      </TabsBody>
     </Tabs>
   );
 };
