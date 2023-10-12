@@ -13,6 +13,7 @@ const Index = () => {
     nama: "",
     harga: "",
     foto: null,
+    jumlah: 0,
   });
 
   const [form] = Form.useForm();

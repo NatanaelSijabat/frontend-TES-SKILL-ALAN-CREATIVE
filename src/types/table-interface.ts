@@ -3,15 +3,10 @@ export interface ObjTableData {
     nama: string;
     foto: File | null;
     harga: string
+    jumlah: number
 }
 
 export interface TableData {
     data: ObjTableData[]
-}
-
-export interface ObjTransaksi {
-    nama: string
-    foto: string
-    harga: string
-    jumlah: number 
+    showAdd?: boolean
 }

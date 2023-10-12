@@ -19,7 +19,7 @@ function App() {
     {
       label: "Food",
       value: "food",
-      desc: <Table data={food} />,
+      desc: <Table data={food} showAdd />,
     },
     {
       label: "Transaksi",

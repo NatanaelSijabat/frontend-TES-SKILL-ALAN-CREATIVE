@@ -15,7 +15,7 @@ export function formatNumberCurrency(number: number) {
   }).format(number);
 }
 
-const Index = ({ data }: TableData) => {
+const Index = ({ data, showAdd }: TableData) => {
   const [showForm, setShowForm] = useState(false);
 
   const handleFormToggle = () => {
@@ -24,7 +24,7 @@ const Index = ({ data }: TableData) => {
 
   return (
     <>
-      {!showForm ? (
+      {!showForm && showAdd ? (
         <Button
           type="button"
           size="sm"
@@ -60,7 +60,7 @@ const Index = ({ data }: TableData) => {
               </tr>
             </thead>
             <tbody>
-              {data.map(({ id, nama, foto, harga }, index) => {
+              {data.map(({ id, nama, foto, harga, jumlah }, index) => {
                 const isLast = index === data.length - 1;
                 const classes = isLast
                   ? "p-4"
@@ -83,7 +83,7 @@ const Index = ({ data }: TableData) => {
                         color="blue-gray"
                         className="font-normal"
                       >
-                        {nama}
+                        {jumlah !== undefined ? nama + `x` + jumlah : nama}
                       </Typography>
                     </td>
                     <td className={classes}>

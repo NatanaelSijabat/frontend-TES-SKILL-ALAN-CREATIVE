@@ -10,17 +10,52 @@ import {
   ListItemPrefix,
   Typography,
 } from "@material-tailwind/react";
-import { ObjTransaksi, TableData } from "../../types/table-interface";
+import { ObjTableData, TableData } from "../../types/table-interface";
 import { formatNumberCurrency } from "../Table/Index";
 import { Avatar, Empty } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { useState } from "react";
+import { Modal } from "../Index";
+import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
+import ReactPDF from "@react-pdf/renderer";
 
 const baseImageURL = `${import.meta.env.VITE_BASE_IMAGE_API}`;
 
+const styles = StyleSheet.create({
+  page: {
+    flexDirection: "row",
+    backgroundColor: "#E4E4E4",
+  },
+  section: {
+    margin: 10,
+    padding: 10,
+    flexGrow: 1,
+  },
+});
+
+const MyDocument = () => (
+  <Document>
+    <Page size="A4" style={styles.page}>
+      <View style={styles.section}>
+        <Text>Section #1</Text>
+      </View>
+      <View style={styles.section}>
+        <Text>Section #2</Text>
+      </View>
+    </Page>
+  </Document>
+);
+
 const Index = ({ data }: TableData) => {
-  const [dataTransaksi, setDataTransaksi] = useState<ObjTransaksi[]>([]);
+  const [dataTransaksi, setDataTransaksi] = useState<ObjTableData[]>([]);
+  const [charge, setCharge] = useState<ObjTableData[]>([]);
   const [total, setTotal] = useState<number>(0);
+
+  const [modalOpen, setModal] = useState<boolean>(false);
+
+  const handleOpenModal = () => {
+    setModal(!modalOpen);
+  };
 
   const handleDoubleClick = (e: any) => {
     const existingItemIndex = dataTransaksi.findIndex(
@@ -43,8 +78,18 @@ const Index = ({ data }: TableData) => {
 
       setTotal(newTotal);
       setDataTransaksi(updatedDataTransaksi);
+      setCharge(updatedDataTransaksi);
     } else {
       setDataTransaksi((prevDataTransaksi) => [
+        ...prevDataTransaksi,
+        {
+          harga: e.harga,
+          nama: e.nama,
+          foto: e.foto,
+          jumlah: 1,
+        },
+      ]);
+      setCharge((prevDataTransaksi) => [
         ...prevDataTransaksi,
         {
           harga: e.harga,
@@ -66,6 +111,14 @@ const Index = ({ data }: TableData) => {
   const handleClearCart = () => {
     setDataTransaksi([]);
     setTotal(0);
+  };
+
+  const handleCharge = () => {
+    setModal(!modalOpen);
+  };
+
+  const savePdf = () => {
+    ReactPDF.render(<MyDocument />, `${__filename}/example.pdf`);
   };
 
   return (
@@ -137,7 +190,7 @@ const Index = ({ data }: TableData) => {
                             variant="small"
                             color="black"
                           >
-                            {jumlah}
+                            {`x` + jumlah}
                           </Typography>
                           <Typography
                             className="font-bold text-center md:text-left whitespace-nowrap"
@@ -185,20 +238,32 @@ const Index = ({ data }: TableData) => {
                     backgroundColor: "#7CAF84",
                     width: "100%",
                   }}
+                  onClick={savePdf}
                 >
                   Print Bill
                 </Button>
               </div>
-              <Button
-                variant="outlined"
-                style={{
-                  width: "100%",
-                  backgroundColor: "#00ABED",
-                }}
-                className="capitalize"
-              >
-                Charge {formatNumberCurrency(Number(total))}
-              </Button>
+              {total !== 0 && (
+                <>
+                  <Button
+                    variant="outlined"
+                    style={{
+                      width: "100%",
+                      backgroundColor: "#00ABED",
+                    }}
+                    className="capitalize"
+                    onClick={handleCharge}
+                  >
+                    Charge {formatNumberCurrency(Number(total))}
+                  </Button>
+                  <Modal
+                    isModalOpen={modalOpen}
+                    handleOk={handleOpenModal}
+                    handleCancel={handleOpenModal}
+                    data={charge}
+                  />
+                </>
+              )}
             </div>
           </CardFooter>
         </Card>
